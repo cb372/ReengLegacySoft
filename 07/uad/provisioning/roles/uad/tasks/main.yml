@@ -1,0 +1,6 @@
+---
+# Imagine this is downloading a license key from somewhere on the company network
+- name: download XML parser license key
+  get_url: >
+    url=http://www.google.com/robots.txt
+    dest=/usr/local/resin/xml-parser-license.txt
