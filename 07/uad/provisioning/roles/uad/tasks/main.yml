@@ -4,3 +4,38 @@
   get_url: >
     url=http://www.google.com/robots.txt
     dest=/usr/local/resin/xml-parser-license.txt
+
+# The psycopg2 library is needed to use the postgresql_* modules
+- name: install psycopg2
+  apt: name={{item}} state=present
+  with_items: [ 'postgresql', 'libpq-dev', 'python-psycopg2' ]
+
+- name: create DB user
+  sudo_user: postgres
+  postgresql_user: >
+    name=vagrant 
+    password=abc 
+    role_attr_flags=LOGIN
+
+- name: create the DB
+  sudo_user: postgres
+  postgresql_db: >
+    name=uad 
+    owner=vagrant
+
+# We use the number of DB tables to decide if we have already loaded the schema
+- name: count DB tables
+  sudo_user: postgres
+  command: psql uad -t -A -c "SELECT count(1) FROM pg_catalog.pg_tables where schemaname='public'"
+  register: table_count
+
+- name: copy the DB schema file if it is needed
+  copy: >
+    src=schema.sql
+    dest=/tmp/schema.sql
+  when: table_count.stdout | int == 0
+
+- name: load the DB schema if it is not already loaded
+  sudo_user: vagrant
+  command: psql uad -f /tmp/schema.sql
+  when: table_count.stdout | int == 0

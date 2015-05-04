@@ -7,4 +7,5 @@
     - resin
     - redis
     - activemq
-    - uad
+    - postgresql
+    - { role: uad, tags: [ 'uad' ] }
