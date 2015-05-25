@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project name="uad" default="compile">
+
+  <target name="clean">
+    <delete dir="dest" />
+    <delete file="uad.war" />
+  </target>
+
+  <target name="compile">
+    <mkdir dir="dest" />
+    <javac
+      debug="true"
+      srcdir="src"
+      destdir="dest"
+      includeantruntime="false"
+      includes="**/*.java"/>
+  </target>
+
+  <target name="package" depends="clean,compile">
+    <war destfile="uad.war" webxml="web.xml">
+      <classes dir="dest"/>
+    </war>
+  </target>
+
+</project>
+

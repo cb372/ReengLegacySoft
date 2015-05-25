@@ -1,0 +1,3 @@
+---
+- name: install PostgreSQL
+  apt: name=postgresql state=present

@@ -1,0 +1,3 @@
+---
+- name: install Apache Ant
+  apt: name=ant state=present

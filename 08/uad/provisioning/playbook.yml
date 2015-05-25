@@ -1,0 +1,11 @@
+---
+- hosts: all
+  sudo: yes
+  roles:
+    - java
+    - ant
+    - resin
+    - redis
+    - activemq
+    - postgresql
+    - { role: uad, tags: [ 'uad' ] }
