@@ -1,14 +1,12 @@
 ---
-- hosts: webserver
+- hosts: postgres
   sudo: yes
   vars:
-    - app_user: uad
+    db_user: uad
+    db_password: abc
+    database: uad
   roles:
-    - user
-    - java
-    - ant
-    - resin
-    - uad
+    - postgresql
 
 - hosts: activemq
   sudo: yes
@@ -23,7 +21,17 @@
   roles:
     - redis
 
-- hosts: postgres
+- hosts: webserver
   sudo: yes
+  vars:
+    app_user: uad
+    db_user: uad
+    db_password: abc
+    # Use the first host in 'postgres' group as the DB server
+    db_server: "{{ hostvars[groups['postgres'][0]].ansible_eth0.ipv4.address }}"
   roles:
-    - postgresql
+    - user
+    - java
+    - ant
+    - resin
+    - uad

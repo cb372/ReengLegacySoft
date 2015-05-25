@@ -5,28 +5,11 @@
     url=http://www.google.com/robots.txt
     dest=/usr/local/resin/xml-parser-license.txt
 
-# The psycopg2 library is needed to use the postgresql_* modules
-- name: install psycopg2
-  apt: name={{item}} state=present
-  with_items: [ 'postgresql', 'libpq-dev', 'python-psycopg2' ]
-
-- name: create DB user
-  sudo_user: postgres
-  postgresql_user: >
-    name={{ app_user }}
-    password=abc
-    role_attr_flags=LOGIN
-
-- name: create the DB
-  sudo_user: postgres
-  postgresql_db: >
-    name=uad 
-    owner={{ app_user }}
-
 # We use the number of DB tables to decide if we have already loaded the schema
 - name: count DB tables
-  sudo_user: postgres
-  command: psql uad -t -A -c "SELECT count(1) FROM pg_catalog.pg_tables where schemaname='public'"
+  environment:
+    PGPASSWORD: "{{ db_password }}"
+  command: psql -h {{ db_server }} -U {{ db_user }} uad -t -A -c "SELECT count(1) FROM pg_catalog.pg_tables where schemaname='public'"
   register: table_count
 
 - name: copy the DB schema file if it is needed
@@ -37,5 +20,7 @@
 
 - name: load the DB schema if it is not already loaded
   sudo_user: "{{ app_user }}"
-  command: psql uad -f /tmp/schema.sql
+  environment:
+    PGPASSWORD: "{{ db_password }}"
+  command: psql -h {{ db_server }} -U {{ db_user }} uad -f /tmp/schema.sql
   when: table_count.stdout | int == 0
