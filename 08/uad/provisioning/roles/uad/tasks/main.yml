@@ -5,6 +5,9 @@
     url=http://www.google.com/robots.txt
     dest=/usr/local/resin/xml-parser-license.txt
 
+- name: install psql
+  apt: name=postgresql-client-9.3 state=present
+
 # We use the number of DB tables to decide if we have already loaded the schema
 - name: count DB tables
   environment:

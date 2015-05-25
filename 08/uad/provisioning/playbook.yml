@@ -11,8 +11,9 @@
 - hosts: activemq
   sudo: yes
   vars:
-    - app_user: uad
+    - app_user: activemq
   roles:
+    - user
     - java
     - activemq
 
