@@ -14,8 +14,8 @@
   file: >
     state=directory
     path=/usr/local/apache-activemq-5.11.1
-    owner=vagrant
-    group=vagrant
+    owner={{ app_user }}
+    group={{ app_user }}
     recurse=yes
 
 - name: create /usr/local/activemq symlink
@@ -29,5 +29,5 @@
     src=activemq-custom-config.xml
     dest=/usr/local/activemq/conf/activemq.xml
     backup=yes
-    owner=vagrant
-    group=vagrant
+    owner={{ app_user }}
+    group={{ app_user }}

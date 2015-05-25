@@ -13,15 +13,15 @@
 - name: create DB user
   sudo_user: postgres
   postgresql_user: >
-    name=vagrant 
-    password=abc 
+    name={{ app_user }}
+    password=abc
     role_attr_flags=LOGIN
 
 - name: create the DB
   sudo_user: postgres
   postgresql_db: >
     name=uad 
-    owner=vagrant
+    owner={{ app_user }}
 
 # We use the number of DB tables to decide if we have already loaded the schema
 - name: count DB tables
@@ -36,6 +36,6 @@
   when: table_count.stdout | int == 0
 
 - name: load the DB schema if it is not already loaded
-  sudo_user: vagrant
+  sudo_user: "{{ app_user }}"
   command: psql uad -f /tmp/schema.sql
   when: table_count.stdout | int == 0

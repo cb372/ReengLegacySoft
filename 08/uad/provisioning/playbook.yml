@@ -1,17 +1,19 @@
 ---
 - hosts: webserver
   sudo: yes
+  vars:
+    - app_user: uad
   roles:
+    - user
     - java
     - ant
     - resin
-    - redis
-    - activemq
-    - postgresql
     - uad
 
 - hosts: activemq
   sudo: yes
+  vars:
+    - app_user: uad
   roles:
     - java
     - activemq

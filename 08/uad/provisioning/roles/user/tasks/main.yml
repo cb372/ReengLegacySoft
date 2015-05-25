@@ -1,0 +1,3 @@
+---
+- name: create application user
+  user: name={{ app_user }} state=present

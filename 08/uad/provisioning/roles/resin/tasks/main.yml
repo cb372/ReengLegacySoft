@@ -14,8 +14,8 @@
   file: >
     state=directory
     path=/usr/local/resin-3.1.14
-    owner=vagrant
-    group=vagrant
+    owner={{ app_user }}
+    group={{ app_user }}
     recurse=yes
 
 - name: create /usr/local/resin symlink
