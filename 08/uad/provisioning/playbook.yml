@@ -1,5 +1,5 @@
 ---
-- hosts: all
+- hosts: webserver
   sudo: yes
   roles:
     - java
@@ -8,4 +8,20 @@
     - redis
     - activemq
     - postgresql
-    - { role: uad, tags: [ 'uad' ] }
+    - uad
+
+- hosts: activemq
+  sudo: yes
+  roles:
+    - java
+    - activemq
+
+- hosts: redis
+  sudo: yes
+  roles:
+    - redis
+
+- hosts: postgres
+  sudo: yes
+  roles:
+    - postgresql
