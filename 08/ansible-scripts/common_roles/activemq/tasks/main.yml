@@ -1,0 +1,33 @@
+---
+- name: download ActiveMQ tarball
+  get_url: >
+    url=http://mirror.catn.com/pub/apache/activemq/5.11.1/apache-activemq-5.11.1-bin.tar.gz
+    dest=/tmp/apache-activemq-5.11.1-bin.tar.gz
+
+- name: extract ActiveMQ tarball
+  unarchive: >
+    src=/tmp/apache-activemq-5.11.1-bin.tar.gz
+    dest=/usr/local
+    copy=no
+
+- name: change owner of ActiveMQ files
+  file: >
+    state=directory
+    path=/usr/local/apache-activemq-5.11.1
+    owner={{ app_user }}
+    group={{ app_user }}
+    recurse=yes
+
+- name: create /usr/local/activemq symlink
+  file: >
+    state=link
+    src=/usr/local/apache-activemq-5.11.1
+    path=/usr/local/activemq
+
+- name: customize ActiveMQ configuration
+  copy: >
+    src=activemq-custom-config.xml
+    dest=/usr/local/activemq/conf/activemq.xml
+    backup=yes
+    owner={{ app_user }}
+    group={{ app_user }}

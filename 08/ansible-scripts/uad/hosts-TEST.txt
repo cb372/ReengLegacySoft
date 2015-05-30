@@ -1,0 +1,11 @@
+[webserver]
+ec2-54-77-241-248.eu-west-1.compute.amazonaws.com
+
+[postgres]
+ec2-54-77-232-91.eu-west-1.compute.amazonaws.com
+
+[redis]
+ec2-54-154-1-68.eu-west-1.compute.amazonaws.com
+
+[activemq]
+ec2-54-77-235-158.eu-west-1.compute.amazonaws.com

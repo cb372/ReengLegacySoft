@@ -1,0 +1,29 @@
+---
+# Imagine this is downloading a license key from somewhere on the company network
+- name: download XML parser license key
+  get_url: >
+    url=http://www.google.com/robots.txt
+    dest=/usr/local/resin/xml-parser-license.txt
+
+- name: install psql
+  apt: name=postgresql-client-9.3 state=present
+
+# We use the number of DB tables to decide if we have already loaded the schema
+- name: count DB tables
+  environment:
+    PGPASSWORD: "{{ db_password }}"
+  command: psql -h {{ db_server }} -U {{ db_user }} uad -t -A -c "SELECT count(1) FROM pg_catalog.pg_tables where schemaname='public'"
+  register: table_count
+
+- name: copy the DB schema file if it is needed
+  copy: >
+    src=schema.sql
+    dest=/tmp/schema.sql
+  when: table_count.stdout | int == 0
+
+- name: load the DB schema if it is not already loaded
+  sudo_user: "{{ app_user }}"
+  environment:
+    PGPASSWORD: "{{ db_password }}"
+  command: psql -h {{ db_server }} -U {{ db_user }} uad -f /tmp/schema.sql
+  when: table_count.stdout | int == 0

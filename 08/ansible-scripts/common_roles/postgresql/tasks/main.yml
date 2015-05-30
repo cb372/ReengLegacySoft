@@ -1,0 +1,33 @@
+---
+- name: install PostgreSQL
+  apt: name=postgresql state=present
+
+- name: make PostgreSQL listen on all addresses
+  lineinfile: >
+    dest=/etc/postgresql/9.3/main/postgresql.conf
+    line="listen_addresses '*'"
+  notify: restart PostgreSQL
+
+- name: add pg_hba.conf entry for app
+  lineinfile: >
+    dest=/etc/postgresql/9.3/main/pg_hba.conf
+    line="host  {{ database }}  {{ db_user }}  all  md5"
+  notify: restart PostgreSQL
+
+# The psycopg2 library is needed to use the postgresql_* modules
+- name: install psycopg2
+  apt: name={{item}} state=present
+  with_items: [ 'postgresql', 'libpq-dev', 'python-psycopg2' ]
+
+- name: create DB user
+  sudo_user: postgres
+  postgresql_user: >
+    name={{ db_user }}
+    password={{ db_password }}
+    role_attr_flags=LOGIN
+
+- name: create the DB
+  sudo_user: postgres
+  postgresql_db: >
+    name={{ database }}
+    owner={{ db_user }}

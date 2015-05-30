@@ -1,0 +1,32 @@
+---
+- name: download Resin tarball
+  get_url: >
+    url=http://www.caucho.com/download/resin-3.1.14.tar.gz
+    dest=/tmp/resin-3.1.14.tar.gz
+
+- name: extract Resin tarball
+  unarchive: >
+    src=/tmp/resin-3.1.14.tar.gz
+    dest=/usr/local
+    copy=no
+
+- name: change owner of Resin files
+  file: >
+    state=directory
+    path=/usr/local/resin-3.1.14
+    owner={{ app_user }}
+    group={{ app_user }}
+    recurse=yes
+
+- name: create /usr/local/resin symlink
+  file: >
+    state=link
+    src=/usr/local/resin-3.1.14
+    path=/usr/local/resin
+
+- name: set RESIN_3_HOME env var
+  lineinfile: >
+    state=present
+    dest=/etc/profile.d/resin_3_home.sh
+    line='export RESIN_3_HOME=/usr/local/resin'
+    create=yes
