@@ -20,6 +20,7 @@
   <target name="package" depends="clean,compile">
     <war destfile="uad.war" webxml="web.xml">
       <classes dir="dest"/>
+      <lib dir="lib" excludes="servlet*"/>
     </war>
   </target>
 
