@@ -3,8 +3,8 @@ package foo;
 import java.awt.*;
 
 /**
- * Author: chris
- * Created: 6/25/14
+ * This is an example of a Java class that is difficult to test
+ * because there is no way to inject or otherwise mock out its dependencies.
  */
 public class ImageResizer {
     /* Where to store resized images */
