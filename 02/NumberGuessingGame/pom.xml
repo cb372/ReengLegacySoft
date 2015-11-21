@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>com.github.cb372</groupId>
+    <artifactId>number-guessing-game</artifactId>
+    <version>0.1-SNAPSHOT</version>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
+
+    <build>
+        <plugins>
+            <plugin>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.1</version>
+                <configuration>
+                    <source>1.7</source>
+                    <target>1.7</target>
+                </configuration>
+            </plugin>
+
+            <!-- FindBugs -->
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>findbugs-maven-plugin</artifactId>
+                <version>3.0.2</version>
+            </plugin>
+
+            <!-- PMD -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-pmd-plugin</artifactId>
+                <version>3.1</version>
+                <configuration>
+                    <rulesets>
+                        <ruleset>/rulesets/java/basic.xml</ruleset>
+                        <ruleset>/rulesets/java/braces.xml</ruleset>
+                        <ruleset>/rulesets/java/comments.xml</ruleset>
+                        <ruleset>/rulesets/java/design.xml</ruleset>
+                        <ruleset>/rulesets/java/optimizations.xml</ruleset>
+                        <ruleset>/rulesets/java/strictexception.xml</ruleset>
+                        <ruleset>/rulesets/java/unusedcode.xml</ruleset>
+                    </rulesets>
+                    <linkXRef>false</linkXRef>
+                </configuration>
+            </plugin>
+
+            <!-- Checkstyle -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-checkstyle-plugin</artifactId>
+                <version>2.12.1</version>
+                <configuration>
+                    <linkXRef>false</linkXRef>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>
